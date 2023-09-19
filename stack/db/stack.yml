@@ -46,6 +46,17 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
+  kafka-ui:
+    deploy:
+      replicas: 1
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8082:8080
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+    networks:
+      - app
+
   mongo:
     labels:
       app: mongo
@@ -57,7 +68,6 @@ services:
     deploy:
       replicas: 1
     image: mongo:6.0@sha256:f462722e606fe097ad00c0d39f97680ee050b90df43e1484543c2a31cb61b039
-    restart: always
     networks:
       - app
     volumes:
