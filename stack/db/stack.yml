@@ -1,0 +1,91 @@
+version: "3.8"
+
+services:
+  zookeeper:
+    labels:
+      app: kafka
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    deploy:
+      replicas: 1
+    image: wurstmeister/zookeeper
+    networks:
+      - app
+
+  kafka:
+    labels:
+      app: kafka
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    deploy:
+      replicas: 1
+    image: wurstmeister/kafka
+    ports:
+      - target: 9094
+        published: 9094
+        protocol: tcp
+        mode: host
+    environment:
+      HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_CREATE_TOPICS: "cars_notification:10:1"
+    depends_on:
+      - zookeeper
+    networks:
+      - app
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  mongo:
+    labels:
+      app: mongo
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    deploy:
+      replicas: 1
+    image: mongo:6.0@sha256:f462722e606fe097ad00c0d39f97680ee050b90df43e1484543c2a31cb61b039
+    restart: always
+    networks:
+      - app
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: blakexdd
+      MONGO_INITDB_ROOT_PASSWORD: something
+
+  redis:
+    labels:
+      app: redis
+    image: redis:6.0.9-alpine3.12
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    deploy:
+      replicas: 1
+    networks:
+      - app
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
+  mongo-data:
+
+networks:
+  app:
+    external: true
