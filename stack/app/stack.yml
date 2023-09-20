@@ -36,6 +36,32 @@ services:
     networks:
       - app
 
+  cars-backend-hidden:
+    labels:
+      - app=backend
+    image: blakexxxd/cars-backend:latest
+    networks:
+      - app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        order: start-first
+      restart_policy:
+        condition: any
+        delay: 1s
+        window: 10s
+    env_file: backend-hidden.env
+
   cars-backend:
     labels:
       - app=backend
