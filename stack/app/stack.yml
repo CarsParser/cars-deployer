@@ -42,11 +42,6 @@ services:
     image: blakexxxd/cars-backend:latest
     networks:
       - app
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
     deploy:
       replicas: 1
       update_config:
@@ -68,11 +63,6 @@ services:
     image: blakexxxd/cars-backend:latest
     networks:
       - app
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
     deploy:
       replicas: 4
       update_config:
