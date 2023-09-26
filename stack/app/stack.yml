@@ -64,7 +64,7 @@ services:
     networks:
       - app
     deploy:
-      replicas: 4
+      replicas: 8
       update_config:
         parallelism: 1
         order: start-first
