@@ -4,11 +4,6 @@ services:
   zookeeper:
     labels:
       app: kafka
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
     deploy:
       replicas: 1
     image: wurstmeister/zookeeper
@@ -18,11 +13,6 @@ services:
   kafka:
     labels:
       app: kafka
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
     deploy:
       replicas: 1
     image: wurstmeister/kafka
@@ -59,11 +49,6 @@ services:
   mongo:
     labels:
       app: mongo
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
     deploy:
       replicas: 1
     image: mongo:6.0@sha256:f462722e606fe097ad00c0d39f97680ee050b90df43e1484543c2a31cb61b039
@@ -82,11 +67,6 @@ services:
     labels:
       app: redis
     image: redis:6.0.9-alpine3.12
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
     deploy:
       replicas: 1
     networks:

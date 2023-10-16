@@ -40,6 +40,11 @@ services:
     labels:
       - app=backend
     image: blakexxxd/cars-backend:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     networks:
       - app
     deploy:
@@ -61,6 +66,11 @@ services:
     labels:
       - app=backend
     image: blakexxxd/cars-backend:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     networks:
       - app
     deploy:

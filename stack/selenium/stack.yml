@@ -15,7 +15,7 @@ services:
       - type: tmpfs
         target: /dev/shm
         tmpfs:
-          size: 2000000000
+          size: 500000000
     networks:
       - app
     entrypoint: bash -c 'SE_OPTS="--host $$HOSTNAME" /opt/bin/entry_point.sh'
