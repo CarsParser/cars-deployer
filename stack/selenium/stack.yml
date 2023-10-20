@@ -2,20 +2,20 @@ version: "3.8"
 
 services:
   chrome:
-    image: selenium/node-chrome:4.12.1
+    image: selenium/node-chrome:114.0-chromedriver-114.0
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=1
-      - SE_NODE_SESSION_TIMEOUT=240
+      - SE_NODE_SESSION_TIMEOUT=360
     deploy:
       replicas: 4
     volumes:
       - type: tmpfs
         target: /dev/shm
         tmpfs:
-          size: 500000000
+          size: 2000000000
     networks:
       - app
     entrypoint: bash -c 'SE_OPTS="--host $$HOSTNAME" /opt/bin/entry_point.sh'

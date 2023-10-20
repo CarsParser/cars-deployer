@@ -36,15 +36,31 @@ services:
     networks:
       - app
 
+  avito-parser:
+    labels:
+      - app=avito
+    image: blakexxxd/avito-parse:latest
+    networks:
+      - app
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        order: start-first
+      restart_policy:
+        condition: any
+        delay: 1s
+        window: 10s
+    env_file: avito-parser.env
+    
   cars-backend-hidden:
     labels:
       - app=backend
     image: blakexxxd/cars-backend:latest
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
     networks:
       - app
     deploy:
@@ -66,11 +82,6 @@ services:
     labels:
       - app=backend
     image: blakexxxd/cars-backend:latest
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
     networks:
       - app
     deploy:

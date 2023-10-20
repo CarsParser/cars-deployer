@@ -13,4 +13,4 @@ fi
 log "${GREEN} Deploying app ${CLOSE}"
 docker stack deploy -c stack/selenium/stack.yml app-selenium-stack
 docker stack deploy -c stack/db/stack.yml app-db-stack
-docker stack deploy -c stack/elk/stack.yml elk-stack
+#docker stack deploy -c stack/elk/stack.yml elk-stack
